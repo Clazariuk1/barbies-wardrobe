@@ -5,6 +5,7 @@ const barbie = {
     name: 'Barbie',
     wardrobe: [],
     portfolio: [],
+    garage: [],
     wallet: 0
 }
 
@@ -88,10 +89,21 @@ class RealEstate {
     }
 }
 
+class Vehicle {
+    constructor(year, make, model, cost){
+        this.year = year;
+        this.make = make;
+        this.model = model;
+        this.cost = cost;
+    }
+}
+
 const birkin = new Clothing('Birkin Bag', 'Hermes', 'purple', 'bag', 'lg', 15470 )
 const chanel = new Clothing('Chanel bag', 'Chanel', 'black', 'bag', 'med', 35000 )
 const redBottoms = new Clothing('Red Bottoms', 'Christian Loboutin', 'black', 'shoes', '6', 3000)
 const house = new RealEstate('Malibu Condo', 50000)
+const tesla = new Vehicle(2024, 'Tesla', 'Model S', 50000)
+
 
 // Game Screen
 
@@ -124,7 +136,17 @@ barbie.render = () => {
             </li>`
         })).join('')
     }
-
+    </ul>
+    </div>
+    <div>
+    <h2>Garage contains:</h2>
+    <ul>${
+        barbie.garage.map((car => {
+            return `<li>
+            ${barbie.name} has a ${car.year} ${car.make} ${car.model} worth $${car.cost}.
+            </li>`
+        })).join('')
+    }
     </ul>
     </div>
 `;
@@ -159,6 +181,10 @@ workButton.addEventListener('click', ()=>{
 
     if(barbie.portfolio.length > 0){
         barbie.wallet += barbie.portfolio.length * 500
+    }
+
+    if(barbie.garage.length > 0){
+        barbie.wallet -= barbie.garage.length * 150
     }
     barbie.render();
 })
@@ -200,6 +226,21 @@ houseButton.addEventListener('click', () => {
     if(barbie.wallet >= house.cost){
         barbie.portfolio.push(house);
         barbie.wallet -= house.cost;
+        barbie.render();
+        // WE updated the wardrobe that belongs to barbie so the object was changed
+    // the object control the information that is visible to us on the screen
+    // I want to re-render the content so that i can see the updated information in the browser
+    } else {
+        alert('Stop trippin you know you aint got it like that');
+    }
+})
+
+const teslaButton = document.getElementById('buyTesla');
+
+teslaButton.addEventListener('click', () => {
+    if(barbie.wallet >= tesla.cost){
+        barbie.garage.push(tesla);
+        barbie.wallet -= tesla.cost;
         barbie.render();
         // WE updated the wardrobe that belongs to barbie so the object was changed
     // the object control the information that is visible to us on the screen
