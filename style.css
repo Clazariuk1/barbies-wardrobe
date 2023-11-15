@@ -50,6 +50,16 @@ border-radius: 15px;
 position: relative;
 }
 
+img {
+  border-radius: 80%;
+  position: relative;
+  top: 10px;
+  right: 20px;
+  float: right;
+  max-width: 30rem;
+  max-height: 10rem;
+}
+
 #red-bottoms:hover{
 background-color: red;
 color: whitesmoke;

@@ -1,14 +1,85 @@
 console.log('App is connected');
 
-// Protagonist of our application
-const barbie = {
-    name: 'Barbie',
-    wardrobe: [],
-    transaction: [],
-    portfolio: [],
-    garage: [],
-    wallet: 0
+class Person {
+    constructor(name, wardrobe, transaction, portfolio, garage, wallet) {
+        this.name = name
+        this.wardrobe = wardrobe
+        this.transaction = transaction
+        this.portfolio = portfolio
+        this.garage = garage
+        this.wallet = wallet
+    }
+    giveItem(target, item) {
+        if (this.wardrobe.includes(item)) {
+          target.wardrobe.push(item);
+          this.wardrobe.splice(portfolio.indexOf(item), 1);
+        } else if (this.portfolio.includes(item)) {
+          target.portfolio.push(item);
+          this.portfolio.splice(portfolio.indexOf(item), 1);
+        } else if (this.garage.includes(item)) {
+          target.garage.push(item);
+          this.garage.splice(garage.indexOf(item), 1);
+        }
+      }
+      giveCash(target, cash) {
+        target.wallet += cash;
+        this.wallet -= cash;
+      }
+      render() {
+        ${this.name}.el.innerHTML = `
+        <h1>${this.name} Status</h1>
+        <h3>${this.name} works as a ${this.career.name} </h3>
+        <h3> Each week ${this.name} takes home $${this.career.income}</h3>
+        <h3> Currently ${this.name} has $${this.wallet} in their bank account</h3>
+        <div> <h2>Wardrobe Contains: </h2>
+        <ul>${this.wardrobe.map((item => {
+                return `<li>
+                ${this.name} has a ${item.color}
+                ${item.name} made by ${item.designer}
+                that is worth ${item.price} in size
+                ${item.size}. Sell item for ${item.price}? <button class="sell__wardrobe">Sell me!"</button><button class="sell__vehicle">Sell me!"</button> <button class="give__item">Give me away?</button>
+                </li>`
+            })).join('')
+        }</ul>
+        </div>
+        <div>
+        <h2>Real Estate portfolio contains:</h2>
+        <ul>${
+            this.portfolio.map((item => {
+                return `<li>
+                ${this.name} has a ${item.name} worth $${item.price}. Sell item for ${item.price}? <button class="sell__home">Sell me!"</button><button class="sell__vehicle">Sell me!"</button> <button class="give__item">Give me away?</button>
+                </li>`
+            })).join('')
+        }
+        </ul>
+        </div>
+        <div>
+        <h2>Garage contains:</h2>
+        <ul>${
+            this.garage.map((car => {
+                return `<li>
+                ${this.name} has a ${car.year} ${car.make} ${car.model} worth $${car.price}. Sell item for ${car.price}? <button class="sell__vehicle">Sell me!"</button> <button class="give__item">Give me away?</button>
+                </li>`
+            })).join('')
+        }
+        </ul>
+        </div>
+    `;
+    }
 }
+
+const barbie = new Person("Barbie", [], [], [], [], 0)
+const ken = new Person("Ken", [], [], [], [], 0)
+
+// // Protagonist of our application
+// const barbie = {
+//     name: 'Barbie',
+//     wardrobe: [],
+//     transaction: [],
+//     portfolio: [],
+//     garage: [],
+//     wallet: 0
+// }
 
 class Career {
     constructor(name, description, income, id){
@@ -71,6 +142,7 @@ for (let i = 10 ; i > 0; i--){
 
 
 barbie.career = careers[randomization(careers.length)]
+ken.career = careers[randomization(careers.length)]
 
 
 const formEl = document.querySelector('form');
@@ -160,56 +232,16 @@ const tesla = new Vehicle(2024, 'Tesla', 'Model S', 50000)
 
 barbie.el = document.getElementById('barbie');
 barbie.el2 = document.getElementById('barbie2')
+ken.el = document.getElementById('ken');
+ken.el2 = document.getElementById('ken2');
 
-
-barbie.render = () => {
-    barbie.el.innerHTML = `
-    <h1>${barbie.name} Status</h1>
-    <h3>${barbie.name} works as a ${barbie.career.name} </h3>
-    <h3> Each week ${barbie.name} takes home $${barbie.career.income}</h3>
-    <h3> Currently ${barbie.name} has $${barbie.wallet} in their bank account</h3>
-    <div> <h2>Wardrobe Contains: </h2>
-    <ul>${
-        barbie.wardrobe.map((item => {
-            return `<li>
-            ${barbie.name} has a ${item.color}
-            ${item.name} made by ${item.designer}
-            that is worth ${item.price} in size
-            ${item.size}. Sell item for ${item.price}? <button class="sell__wardrobe">Sell me!"</button>
-            </li>`
-        })).join('')
-    }</ul>
-    </div>
-    <div>
-    <h2>Real Estate portfolio contains:</h2>
-    <ul>${
-        barbie.portfolio.map((item => {
-            return `<li>
-            ${barbie.name} has a ${item.name} worth $${item.price}. Sell item for ${item.price}? <button class="sell__home">Sell me!"</button>
-            </li>`
-        })).join('')
-    }
-    </ul>
-    </div>
-    <div>
-    <h2>Garage contains:</h2>
-    <ul>${
-        barbie.garage.map((car => {
-            return `<li>
-            ${barbie.name} has a ${car.year} ${car.make} ${car.model} worth $${car.price}. Sell item for ${car.price}? <button class="sell__vehicle">Sell me!"</button>
-            </li>`
-        })).join('')
-    }
-    </ul>
-    </div>
-`;
-}
 
 barbie.render();
+ken.render();
 
 const sellBtnsProperty = document.querySelectorAll('.sell__home');
 
- sellBtnsWardrobe.forEach((button) => {
+ sellBtnsProperty.forEach((button) => {
     button.addEventListener('click', (evt) => {
         evt.preventDefault();
         let currentIdx;
@@ -217,14 +249,15 @@ const sellBtnsProperty = document.querySelectorAll('.sell__home');
             currentIdx = idx;
             return item.id === evt.target.id;
         })
+        barbie.wallet += currentIdx.price;
         barbie.portfolio.splice(currentIdx, 1);
         barbie.render()
     })
  })
 
-const sellBtnsWardrobe = document.querySelectorAll('.sell__vehicle');
+const sellBtnsGarage = document.querySelectorAll('.sell__vehicle');
 
- sellBtnsWardrobe.forEach((button) => {
+ sellBtnsGarage.forEach((button) => {
     button.addEventListener('click', (evt) => {
         evt.preventDefault();
         let currentIdx;
@@ -232,6 +265,7 @@ const sellBtnsWardrobe = document.querySelectorAll('.sell__vehicle');
             currentIdx = idx;
             return item.id === evt.target.id;
         })
+        barbie.wallet += currentIdx.price;
         barbie.garage.splice(currentIdx, 1);
         barbie.render()
     })
@@ -247,6 +281,7 @@ const sellBtnsWardrobe = document.querySelectorAll('.sell__vehicle');
             currentIdx = idx;
             return item.id === evt.target.id;
         })
+        barbie.wallet += currentIdx.price;
         barbie.wardrobe.splice(currentIdx, 1);
         barbie.render()
     })
