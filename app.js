@@ -134,18 +134,18 @@ class Clothing {
 }
 
 class RealEstate {
-    constructor(name, cost){
+    constructor(name, price){
         this.name = name;
-        this.cost = cost;
+        this.price = price;
     }
 }
 
 class Vehicle {
-    constructor(year, make, model, cost){
+    constructor(year, make, model, price){
         this.year = year;
         this.make = make;
         this.model = model;
-        this.cost = cost;
+        this.price = price;
     }
 }
 
@@ -175,7 +175,7 @@ barbie.render = () => {
             ${barbie.name} has a ${item.color}
             ${item.name} made by ${item.designer}
             that is worth ${item.price} in size
-            ${item.size}
+            ${item.size}. Sell item for ${item.price}? <button class="sell__wardrobe">Sell me!"</button>
             </li>`
         })).join('')
     }</ul>
@@ -185,7 +185,7 @@ barbie.render = () => {
     <ul>${
         barbie.portfolio.map((item => {
             return `<li>
-            ${barbie.name} has a ${item.name} worth $${item.cost}.
+            ${barbie.name} has a ${item.name} worth $${item.price}. Sell item for ${item.price}? <button class="sell__home">Sell me!"</button>
             </li>`
         })).join('')
     }
@@ -196,7 +196,7 @@ barbie.render = () => {
     <ul>${
         barbie.garage.map((car => {
             return `<li>
-            ${barbie.name} has a ${car.year} ${car.make} ${car.model} worth $${car.cost}.
+            ${barbie.name} has a ${car.year} ${car.make} ${car.model} worth $${car.price}. Sell item for ${car.price}? <button class="sell__vehicle">Sell me!"</button>
             </li>`
         })).join('')
     }
@@ -207,6 +207,50 @@ barbie.render = () => {
 
 barbie.render();
 
+const sellBtnsProperty = document.querySelectorAll('.sell__home');
+
+ sellBtnsWardrobe.forEach((button) => {
+    button.addEventListener('click', (evt) => {
+        evt.preventDefault();
+        let currentIdx;
+        homeItem = barbie.portfolio.find((item, idx) => {
+            currentIdx = idx;
+            return item.id === evt.target.id;
+        })
+        barbie.portfolio.splice(currentIdx, 1);
+        barbie.render()
+    })
+ })
+
+const sellBtnsWardrobe = document.querySelectorAll('.sell__vehicle');
+
+ sellBtnsWardrobe.forEach((button) => {
+    button.addEventListener('click', (evt) => {
+        evt.preventDefault();
+        let currentIdx;
+        garageItem = barbie.garage.find((item, idx) => {
+            currentIdx = idx;
+            return item.id === evt.target.id;
+        })
+        barbie.garage.splice(currentIdx, 1);
+        barbie.render()
+    })
+ })
+
+ const sellBtnsWardrobe = document.querySelectorAll('.sell__wardrobe');
+
+ sellBtnsWardrobe.forEach((button) => {
+    button.addEventListener('click', (evt) => {
+        evt.preventDefault();
+        let currentIdx;
+        wardrobeItem = barbie.wardrobe.find((item, idx) => {
+            currentIdx = idx;
+            return item.id === evt.target.id;
+        })
+        barbie.wardrobe.splice(currentIdx, 1);
+        barbie.render()
+    })
+ })
 
 
 
@@ -277,9 +321,9 @@ chanelButton.addEventListener('click' , () => {
 const houseButton = document.getElementById('house');
 
 houseButton.addEventListener('click', () => {
-    if(barbie.wallet >= house.cost){
+    if(barbie.wallet >= house.price){
         barbie.portfolio.push(house);
-        barbie.wallet -= house.cost;
+        barbie.wallet -= house.price;
         barbie.render();
         // WE updated the wardrobe that belongs to barbie so the object was changed
     // the object control the information that is visible to us on the screen
@@ -292,9 +336,9 @@ houseButton.addEventListener('click', () => {
 const teslaButton = document.getElementById('buyTesla');
 
 teslaButton.addEventListener('click', () => {
-    if(barbie.wallet >= tesla.cost){
+    if(barbie.wallet >= tesla.price){
         barbie.garage.push(tesla);
-        barbie.wallet -= tesla.cost;
+        barbie.wallet -= tesla.price;
         barbie.render();
         // WE updated the wardrobe that belongs to barbie so the object was changed
     // the object control the information that is visible to us on the screen
