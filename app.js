@@ -72,6 +72,56 @@ for (let i = 10 ; i > 0; i--){
 
 barbie.career = careers[randomization(careers.length)]
 
+
+const formEl = document.querySelector('form');
+const submitBtn = document.getElementById('submit-button');
+let currentCareer;
+
+const renderFormOptions = () => {
+    formEl.innerHTML = `
+    <label for="career-select">Choose a career:</label>
+    <select name="careers" id="career-select">
+      <option value="">--Choose a new Career!--</option>
+      ${careers.map(career => {
+      return (
+        `<option class="option" value="${career.name}" id="${career.id}">${career.name}</option>`
+      )
+    }).join('')}
+    </select>
+    `
+
+    // const getPaidBtns = document.querySelectorAll('div.option ~ button')
+
+
+
+   submitBtn.addEventListener('click', (evt) => {
+        evt.preventDefault();
+        let currentIdx;
+        currentCareer = careers.find((item, idx) => {
+          currentIdx = idx
+          return item.id === evt.target.id
+        })
+        careers.splice(currentIdx, 1)
+        renderFormOptions()
+        // console.log(`${currentCareer.income}`)
+      })
+    }
+
+  renderFormOptions()
+
+  const options = document.querySelectorAll('.option')
+  const display = document.querySelector('.career__display')
+//   const input = document.querySelector('input')
+
+  options.forEach(option => {
+    option.addEventListener('click', (evt) => {
+      currentCareer = careers.find(item => {
+        return item.id === evt.target.id
+      })
+      display.innerHTML = `${currentCareer} is the career of choice and they make ${currentCareer.income} per week`
+    })
+  })
+
 class Clothing {
     constructor(name, designer, color, type, size, price){
         this.name = name;

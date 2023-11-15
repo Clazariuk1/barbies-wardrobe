@@ -8,7 +8,6 @@ body {
 }
 
 
-
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
 
 .box-1 {
@@ -71,4 +70,23 @@ border-radius: 50px;
 border-radius: 50px;
 background-color: red;
 color: whitesmoke;
+}
+
+.dropdown.active {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown>div {
+  background-color: white;
+  border: .5px solid black;
+  width: 40%;
+  margin: 2px;
+  text-align: center;
+  padding: 1px;
+}
+
+.dropdown>div:hover {
+  background-color: blue;
+  cursor: grab;
 }
